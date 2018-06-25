@@ -304,8 +304,8 @@
 <h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在hadoop1.x的版本中，hadoop主要分为hdfs和mr两部分，接下来分别就hdfs和mr分别介绍。</p>
 <h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>HDFS全称为Hadoop Distributed File System，即Hadoop分布式文件系统，提供了一个高度容错性和高吞吐量的海量数据存储解决方案。作为一个为Hadoop提供数据存储服务的基础数据存储平台，HDFS具有具有高度容错、高吞吐量、容易扩展、高可靠性等特征，为大型数据集的处理提供了一个强有力的工具。</p>
 <h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS采用主从架构体系，由NameNode、SecondaryNameNode和DataNode三个组件组成。一个HDFS集群包含一个NN和多个DN。</p>
-<p><img src="../picture/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
-<h4 id="Namenode"><a href="#Namenode" class="headerlink" title="Namenode"></a>Namenode</h4><p>NameNode是HDFS集群的master，关于NameNode需要明白的主要有以下几点：</p>
+<p><img src="/images/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
+<h4 id="Namenode"><a href="#Namenode" class="headerlink" title="Namenode"></a>Namenode</h4><p>NameNode是HDFS集群的master，关于NameNode主要有以下几点：</p>
 <ol>
 <li><p>管理着文件系统命名空间</p>
 <pre><code>它维护着文件系统树及树中的所有文件和目录
@@ -325,8 +325,8 @@
 如果现在有1000个1MB的文件，则占用1000*3=3000个block（多个文件不能共享一个block）。
 所以文件越小，存储同等大小文件所需要的元数据就越多，因block溢出而浪费的空间也越大。
 </code></pre></li>
-<li>元数据持久化<pre><code>在NameNode中存放元数据的文件是fsimage。
-在系统运行期间所有对元数据的操作都保存在内存中并被持久化到另一个文件edits中。
+<li>元数据持久化<pre><code>在NameNode中存放元数据的文件是FsImage。
+在系统运行期间所有对元数据的操作都保存在内存中并被持久化到另一个文件EditLog中。
 edits文件和fsimage文件会被SecondaryNameNode周期性的合并
 </code></pre></li>
 <li>运行NameNode会占用大量内存和I/O资源<pre><code>一般NameNode不会存储用户数据或执行MapReduce任务
