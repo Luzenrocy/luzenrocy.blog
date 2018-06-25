@@ -229,6 +229,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/hadoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luzenrocy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dream Space">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/25/hadoop/" itemprop="url">hadoop</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-25T20:48:10+08:00">
+                2018-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对hadoop的学习及掌握程度，本人从hadoop 1.x开始，到2.x结束。不足之处还望路过的各位大神多多指教。</p>
+<h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在hadoop1.x的版本中，hadoop主要分为hdfs和mr两部分，接下来分别就hdfs和mr分别介绍。</p>
+<h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>HDFS全称为Hadoop Distributed File System，即Hadoop分布式文件系统，提供了一个高度容错性和高吞吐量的海量数据存储解决方案。作为一个为Hadoop提供数据存储服务的基础数据存储平台，HDFS具有具有高度容错、高吞吐量、容易扩展、高可靠性等特征，为大型数据集的处理提供了一个强有力的工具。</p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS采用主从架构体系，由NameNode、SecondaryNameNode和DataNode三个组件组成。一个HDFS集群包含一个NN和多个DN。</p>
+<p><img src="../picture/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
+<h4 id="Namenode"><a href="#Namenode" class="headerlink" title="Namenode"></a>Namenode</h4><p>NameNode是HDFS集群的master，关于NameNode需要明白的主要有以下几点：</p>
+<ol>
+<li><p>管理着文件系统命名空间</p>
+<pre><code>它维护着文件系统树及树中的所有文件和目录
+</code></pre></li>
+<li><p>存储元数据，它保存的元数据的种类有以下三种:</p>
+<pre><code>文件目录名及他们之间的层级关系
+文件目录的所有者及其权限
+每个文件块的名及文件由哪些块组成
+</code></pre></li>
+<li><p>元数据保存在内存中</p>
+<pre><code>元数据信息不包含每个块的位置信息
+</code></pre></li>
+<li>保存文件、block、datanode之间的映射关系</li>
+<li><p>Hadoop更倾向存储大文件的原因呢：</p>
+<pre><code>一般来说，一条元数据会占用200byte内存空间。
+假设block大小为64MB，备份数量为3，那么1GB大小的文件将占用16*3=48个block。
+如果现在有1000个1MB的文件，则占用1000*3=3000个block（多个文件不能共享一个block）。
+所以文件越小，存储同等大小文件所需要的元数据就越多，因block溢出而浪费的空间也越大。
+</code></pre></li>
+<li>元数据持久化<pre><code>在NameNode中存放元数据的文件是fsimage。
+在系统运行期间所有对元数据的操作都保存在内存中并被持久化到另一个文件edits中。
+edits文件和fsimage文件会被SecondaryNameNode周期性的合并
+</code></pre></li>
+<li>运行NameNode会占用大量内存和I/O资源<pre><code>一般NameNode不会存储用户数据或执行MapReduce任务
+</code></pre></li>
+<li><p>全Hadoop系统只有一个NameNode</p>
+<pre><code>容易导致单点问题，单点问题的解决方案有如下：
+（1）将Hadoop元数据写入到本地文件系统的同时再实时同步到一个远程挂载的网络文件系统（FS）
+（2）运行一个SecondaryNameNode，负责与NameNode交互，定期通过编辑日志文件合并命名空间镜像，
+当NameNode发生故障是它会通过自己合并的命名空间镜像副本来回复。
+需注意的是SecondaryNameNode保存的状态总是滞后于NameNode，所以这种方式难免会导致丢失部分数据。
+</code></pre></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -390,7 +548,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
