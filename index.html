@@ -229,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/hadoop/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/Hadoop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Luzenrocy">
@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/25/hadoop/" itemprop="url">hadoop</a></h1>
+                <a class="post-title-link" href="/2018/06/25/Hadoop/" itemprop="url">Hadoop</a></h1>
         
 
         <div class="post-meta">
@@ -300,12 +300,13 @@
       
         
           
-            <p>hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对hadoop的学习及掌握程度，本人从hadoop 1.x开始，到2.x结束。不足之处还望路过的各位大神多多指教。</p>
-<h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在hadoop1.x的版本中，hadoop主要分为hdfs和mr两部分，接下来分别就hdfs和mr分别介绍。</p>
+            <p>Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。</p>
+<h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。</p>
 <h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>HDFS全称为Hadoop Distributed File System，即Hadoop分布式文件系统，提供了一个高度容错性和高吞吐量的海量数据存储解决方案。作为一个为Hadoop提供数据存储服务的基础数据存储平台，HDFS具有具有高度容错、高吞吐量、容易扩展、高可靠性等特征，为大型数据集的处理提供了一个强有力的工具。</p>
-<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS采用主从架构体系，由NameNode、SecondaryNameNode和DataNode三个组件组成。一个HDFS集群包含一个NN和多个DN。</p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS是一个部署在多台不同廉价商品硬件上的概念上分布式文件系统。之所以说他是概念上的，源于之前一个刚接触Hadoop的同事的一个问题：我在Linux系统上可以cd /XXX 停留在某个目录，而用HDFS的时候为什么不可以？这个问题很形象地说明HDFS并不是一个像Linux、Windows那样实际存在的操作系统。它更像是一个工具，把多台不同的机器上的内存、硬盘等空间资源整合在一起对外提供服务，就是使用所有机器的资源重新构建的将数据存储的细节封装的操作对用户透明的文件系统。</p>
+<p>HDFS采用主从架构体系，由NameNode（主）、SecondaryNameNode和DataNode（从）三个组件组成。一个HDFS集群包含一个NN和多个DN，数据存储的基本单位是block，默认大小为64M。</p>
 <p><img src="/images/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
-<h4 id="Namenode"><a href="#Namenode" class="headerlink" title="Namenode"></a>Namenode</h4><p>NameNode是HDFS集群的master，关于NameNode主要有以下几点：</p>
+<h4 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h4><p>NameNode是HDFS集群的master节点，管理着整个集群的运行，是集群对外提供服务的唯一接口。关于NameNode有以下几点总结：<br>  Namenode</p>
 <ol>
 <li><p>管理着文件系统命名空间</p>
 <pre><code>它维护着文件系统树及树中的所有文件和目录
@@ -327,19 +328,39 @@
 </code></pre></li>
 <li>元数据持久化<pre><code>在NameNode中存放元数据的文件是FsImage。
 在系统运行期间所有对元数据的操作都保存在内存中并被持久化到另一个文件EditLog中。
-edits文件和fsimage文件会被SecondaryNameNode周期性的合并
+EditLog文件和FsImage文件会被SecondaryNameNode周期性的合并
 </code></pre></li>
 <li>运行NameNode会占用大量内存和I/O资源<pre><code>一般NameNode不会存储用户数据或执行MapReduce任务
 </code></pre></li>
 <li><p>全Hadoop系统只有一个NameNode</p>
-<pre><code>容易导致单点问题，单点问题的解决方案有如下：
+<pre><code>容易导致单点问题，单点问题的解决方案如下：
 （1）将Hadoop元数据写入到本地文件系统的同时再实时同步到一个远程挂载的网络文件系统（FS）
 （2）运行一个SecondaryNameNode，负责与NameNode交互，定期通过编辑日志文件合并命名空间镜像，
 当NameNode发生故障是它会通过自己合并的命名空间镜像副本来回复。
 需注意的是SecondaryNameNode保存的状态总是滞后于NameNode，所以这种方式难免会导致丢失部分数据。
 </code></pre></li>
 </ol>
-
+<h4 id="Secondary-NameNode"><a href="#Secondary-NameNode" class="headerlink" title="Secondary NameNode"></a>Secondary NameNode</h4><p>SNN（Secondary NameNode）从命名上看很像是NN的一个备份，但事实上并不是如此，它是一个辅助性的进程。由于和NN一样有内存的需求，所以通常会部署不同与NN的一台机器上，该机器由conf/masters文件来指定。负责设置检查点定期检查NN的namespace，并在NN特定的限制范围内帮助NN保持记录HDFS操作日志文件的大小。</p>
+<p>NN会把发生在HDFS元数据上的每一个变化持久化为一条事务log追加到本地文件系统的文件edits中。整个文件系统的namespace包括blocks到文件以及文件系统的属性，由NN存储并将之持久化在一个叫fsimage的image文件中。当NN启动时，它会从fsimage文件当中读取HDFS状态信息然后读取edits log文件中并应用其中事务到fsimage的内存。因为老的edits file中的事务已经被持久化到fsimage，这样就可以把老的edits file截断。这个过程也被称为一个检查点。</p>
+<p>因NN仅在启动时合并fsimage和edits file，所以当集群在忙碌的情况下运行很长时间后的edits log file会很大，这也导致NN的下一次重启会消耗很长时间。SNN所做的不过是在文件系统中设置一个检查点帮助HDFS更好地工作，既不是要取代NN也不是NN的备份。它会读取HDFS的fsimage，然后定时读取edits file应用其中的事务并维护一个自己的fsimage，然后将之拷贝给NN。以此来达到在NN的运行过程中截断edits file，降低NN启动时间的目的。</p>
+<h4 id="DataNode"><a href="#DataNode" class="headerlink" title="DataNode"></a>DataNode</h4><p>DN是HDFS集群的salve节点，是整个HDFS集群的基础，关于DN总结如下：</p>
+<ol>
+<li>负责存储block，为系统客户端提供block的读写服务</li>
+<li>根据NN的指示进行创建、删除以及复制等操作</li>
+<li>心跳机制，定期报告文件block列表信息</li>
+<li>DN之间进行通信，block块的副本处理</li>
+<li><p>block——磁盘读写的基本单位</p>
+<pre><code>HDFS默认的block大小为64M，磁盘块一边为512B
+block增大可以减少寻址时间，block过大也不好
+因为一个MR通常以一个block为输入，block过大导致整体任务数据量过小，降低作业处理速度。
+</code></pre></li>
+</ol>
+<h3 id="数据存储-block副本放置策略"><a href="#数据存储-block副本放置策略" class="headerlink" title="数据存储(block副本放置策略)"></a>数据存储(block副本放置策略)</h3><p>HDFS设计的初衷是为了存储大型文件。在存储文件时，HDFS会把文件切分成一系列的block，每个文件的所有block除了最后一个大小都是一样的。默认情况下，出于容错的考虑每个block会被复制3份。block的大小和备份个数是可以改变的。应用可指定备份的个数，备份的个数可以在文件创建的时候指定并且可以在之后修改。HDFS中的文件是写一次的并且有一个严格的写入器。</p>
+<p><img src="/images/hdfsdatanodes.gif" alt="datanode"></p>
+<p>NN会做出关于block复制的所有决定。它定期地接受来自集群中每一个DN的一个心跳以及一个Blockreport。接收到心跳意味着该DN正常工作，一个Blockreport包含一个DN上所有block的列表。而NN采用机架感知策略决定每一个副本存放位置。</p>
+<p><img src="/images/rack_aware.png" alt="network topology">假设HDFS运行在一个拥有树层次的网络拓扑的集群上，例如一个HDFS集群可能是由多个数据中心组成，而每个数据中心又包含多个机架的电脑；正如上图所示，树叶代表电脑，内部的节点代表交换机或路由器。集群中每个节点的位置由一个类似于一个文件名的字符串表示，如R1的位置为/D1/R1，H8的位置为/D2/R3/H8.假定一个节点到它所在机架（即上一层，parent）的距离为1，两台电脑间的距离可以通过把每台电脑到他们共有的节点（ancestor）的距离加起来的方式计算。</p>
+<p>block放置策略是为了在最小化编写成本和最大化数据可靠性之间做一个折衷，并聚合读取的带宽。当一个新的block被创建时，第一个副本会被放置在本地节点上，第二个个副本会放置在另一个不同的机架上，第三个副本会被放在当前机架的另一个不同的节点上，而余下的副本会在副本的数量不超过机架数量的两倍时一个节点不超过一个副本、同一机架不超过两个副本的限制条件随机放置在一个节点上。而当复制一个block时，如果已存在的副本数是1，则则将第二个部分放在不同机架的机器上；当已存在的副本数是2，如果两副本在同一机架，则将第三个副本放在另一个不同的机架上，否则放在和第一块副本同意机架的不同机器上；当可用的副本数超过两块，则随机放置剩下的副本。当所有放置block的目标节点选定之后，所有节点会按它们距离第一个副本的距离按顺序组成一个pipeline，然后数据会按顺序写入各节点。详情见<a href="/files/Rack_aware_HDFS_proposal.pdf">Rack_aware_HDFS_proposal.pdf</a></p>
+<h3 id="读写流程"><a href="#读写流程" class="headerlink" title="读写流程"></a>读写流程</h3>
           
         
       
