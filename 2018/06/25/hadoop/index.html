@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="大数据," />
 
 
 
@@ -79,20 +79,21 @@
 
 
 
-<meta name="description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
+<meta name="description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
+<meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hadoop">
 <meta property="og:url" content="http://yoursite.com/2018/06/25/Hadoop/index.html">
 <meta property="og:site_name" content="Dream Space">
-<meta property="og:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
+<meta property="og:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/hdfsarchitecture.gif">
 <meta property="og:image" content="http://yoursite.com/images/hdfsdatanodes.gif">
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
-<meta property="og:updated_time" content="2018-06-28T16:52:06.878Z">
+<meta property="og:updated_time" content="2018-06-29T15:32:00.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
-<meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
+<meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
 <meta name="twitter:image" content="http://yoursite.com/images/hdfsarchitecture.gif">
 
 
@@ -304,7 +305,7 @@
 
       
         <p>Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。</p>
-<h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。</p>
+<h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。</p>
 <h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>HDFS全称为Hadoop Distributed File System，即Hadoop分布式文件系统，提供了一个高度容错性和高吞吐量的海量数据存储解决方案。作为一个为Hadoop提供数据存储服务的基础数据存储平台，HDFS具有具有高度容错、高吞吐量、容易扩展、高可靠性等特征，为大型数据集的处理提供了一个强有力的工具。</p>
 <h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS是一个部署在多台不同廉价商品硬件上的概念上分布式文件系统。之所以说他是概念上的，源于之前一个刚接触Hadoop的同事的一个问题：我在Linux系统上可以cd /XXX 停留在某个目录，而用HDFS的时候为什么不可以？这个问题很形象地说明HDFS并不是一个像Linux、Windows那样实际存在的操作系统。它更像是一个工具，把多台不同的机器上的内存、硬盘等空间资源整合在一起对外提供服务，就是使用所有机器的资源重新构建的将数据存储的细节封装的操作对用户透明的文件系统。</p>
 <p>HDFS采用主从架构体系，由NameNode（主）、SecondaryNameNode和DataNode（从）三个组件组成。一个HDFS集群包含一个NN和多个DN，数据存储的基本单位是block，默认大小为64M。</p>
@@ -377,6 +378,12 @@ block增大可以减少寻址时间，block过大也不好
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
       
 
       
@@ -480,6 +487,15 @@ block增大可以减少寻址时间，block过大也不好
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
             
 
           </nav>
