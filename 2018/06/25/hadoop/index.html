@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
 <meta property="og:image" content="http://yoursite.com/images/read_from_hdfs.png">
 <meta property="og:image" content="http://yoursite.com/images/write_to_hdfs.png">
-<meta property="og:updated_time" content="2018-07-02T16:20:56.021Z">
+<meta property="og:updated_time" content="2018-07-02T16:26:34.437Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
 <meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
@@ -337,7 +337,7 @@
 <h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS是一个部署在多台不同廉价商品硬件上的概念上分布式文件系统。之所以说他是概念上的，源于之前一个刚接触Hadoop的同事的一个问题：我在Linux系统上可以cd /XXX 停留在某个目录，而用HDFS的时候为什么不可以？这个问题很形象地说明HDFS并不是一个像Linux、Windows那样实际存在的操作系统。它更像是一个工具，把多台不同的机器上的内存、硬盘等空间资源整合在一起对外提供服务，就是使用所有机器的资源重新构建的将数据存储的细节封装的操作对用户透明的文件系统。</p>
 <p>HDFS采用主从架构体系，由NameNode（主）、SecondaryNameNode和DataNode（从）三个组件组成。一个HDFS集群包含一个NN和多个DN，数据存储的基本单位是block，默认大小为64M。</p>
 <p><img src="/images/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
-<h4 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h4><p>NameNode是HDFS集群的master节点，管理着整个集群的运行，是集群对外提供服务的唯一接口。关于NameNode有以下几点总结：<br>  Namenode</p>
+<h4 id="NameNode"><a href="#NameNode" class="headerlink" title="NameNode"></a>NameNode</h4><p>NameNode是HDFS集群的master节点，管理着整个集群的运行，是集群对外提供服务的唯一接口。关于NameNode有以下几点总结：</p>
 <ol>
 <li><p>管理着文件系统命名空间</p>
 <pre><code>它维护着文件系统树及树中的所有文件和目录
