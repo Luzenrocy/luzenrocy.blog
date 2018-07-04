@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
 <meta property="og:image" content="http://yoursite.com/images/read_from_hdfs.png">
 <meta property="og:image" content="http://yoursite.com/images/write_to_hdfs.png">
-<meta property="og:updated_time" content="2018-07-04T11:23:55.933Z">
+<meta property="og:updated_time" content="2018-07-04T11:37:04.142Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
 <meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
@@ -387,8 +387,9 @@ block增大可以减少寻址时间，block过大也不好
 </li>
 <li><p>切换DataNode<br>当达到一个block的末尾时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最优的DataNode。</p>
 </li>
+<li><p>关闭输入流</p>
+</li>
 </ol>
-<p>6.关闭输入流</p>
 <p>第5步的这个操作对客户端来说是透明的，从客户端的角度来说就只是读取一个持续的流。随着DFSInputStream打开到DataNode的新连接作为客户端读取数的流，block是按顺序被读取的。当这一批的block读取完毕后，DFSInputStream会再次调用ClientProtocol.getBlockLocations()向NameNode获取下一批block的位置信息。当客户端成功完成文件读取后，会通过HdfsDataInputStream.close()方法关闭输入流。</p>
 <p></p><h4 id="1.1.3.2">客户端写文件到HDFS</h4><br><img src="/images/write_to_hdfs.png" alt="write_to_HDFS"><p></p>
 
