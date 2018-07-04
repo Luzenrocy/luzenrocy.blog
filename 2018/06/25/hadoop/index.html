@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="大数据," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
-<meta name="keywords" content="大数据">
+<meta name="description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hadoop">
 <meta property="og:url" content="http://yoursite.com/2018/06/25/hadoop/index.html">
 <meta property="og:site_name" content="Dream Space">
-<meta property="og:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
+<meta property="og:description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/hadoop-licdn-com.png">
 <meta property="og:image" content="http://yoursite.com/images/hdfsarchitecture.gif">
 <meta property="og:image" content="http://yoursite.com/images/nn_merge_fe.jpg">
 <meta property="og:image" content="http://yoursite.com/images/snn_merge_fe.jpg">
@@ -94,11 +94,11 @@
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
 <meta property="og:image" content="http://yoursite.com/images/read_from_hdfs.png">
 <meta property="og:image" content="http://yoursite.com/images/write_to_hdfs.png">
-<meta property="og:updated_time" content="2018-07-02T16:26:34.437Z">
+<meta property="og:updated_time" content="2018-07-04T11:23:55.933Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
-<meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。 Hadoop 1.x在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。 HDFSHDFS全称为Hadoop Distribute">
-<meta name="twitter:image" content="http://yoursite.com/images/hdfsarchitecture.gif">
+<meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
+<meta name="twitter:image" content="http://yoursite.com/images/hadoop-licdn-com.png">
 
 
 
@@ -281,28 +281,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bigdata/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -330,10 +308,10 @@
       
 
       
-        <p>Hadoop是大数据技术的基础，在大数据体系中的地位至关重要。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。</p>
+        <p><img src="/images/hadoop-licdn-com.png" alt="hadoop logo"></p>
+<p>Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。<br><a id="more"></a></p>
 <h1 id="Hadoop-1-x"><a href="#Hadoop-1-x" class="headerlink" title="Hadoop 1.x"></a>Hadoop 1.x</h1><p>在Hadoop1.x的版本中，Hadoop主要分为HDFS和MR两部分，接下来分别就hdfs和mr分别介绍。</p>
 <h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>HDFS全称为Hadoop Distributed File System，即Hadoop分布式文件系统，提供了一个高度容错性和高吞吐量的海量数据存储解决方案。作为一个为Hadoop提供数据存储服务的基础数据存储平台，HDFS具有具有高度容错、高吞吐量、容易扩展、高可靠性等特征，为大型数据集的处理提供了一个强有力的工具。</p>
-<a id="more"></a>
 <h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>HDFS是一个部署在多台不同廉价商品硬件上的概念上分布式文件系统。之所以说他是概念上的，源于之前一个刚接触Hadoop的同事的一个问题：我在Linux系统上可以cd /XXX 停留在某个目录，而用HDFS的时候为什么不可以？这个问题很形象地说明HDFS并不是一个像Linux、Windows那样实际存在的操作系统。它更像是一个工具，把多台不同的机器上的内存、硬盘等空间资源整合在一起对外提供服务，就是使用所有机器的资源重新构建的将数据存储的细节封装的操作对用户透明的文件系统。</p>
 <p>HDFS采用主从架构体系，由NameNode（主）、SecondaryNameNode和DataNode（从）三个组件组成。一个HDFS集群包含一个NN和多个DN，数据存储的基本单位是block，默认大小为64M。</p>
 <p><img src="/images/hdfsarchitecture.gif" alt="HDFS 架构图"></p>
@@ -384,13 +362,35 @@ block增大可以减少寻址时间，block过大也不好
 因为一个MR通常以一个block为输入，block过大导致整体任务数据量过小，降低作业处理速度。
 </code></pre></li>
 </ol>
-<h3 id="数据存储-block副本放置策略"><a href="#数据存储-block副本放置策略" class="headerlink" title="数据存储(block副本放置策略)"></a>数据存储(block副本放置策略)</h3><p>HDFS设计的初衷是为了存储大型文件。在存储文件时，HDFS会把文件切分成一系列的block，每个文件的所有block除了最后一个大小都是一样的。默认情况下，出于容错的考虑每个block会被复制3份。block的大小和备份个数是可以改变的。应用可指定备份的个数，备份的个数可以在文件创建的时候指定并且可以在之后修改。HDFS中的文件是写一次的并且有一个严格的写入器。</p>
+<p></p><h3 id="1.1.2"> 数据存储(block副本放置策略)</h3><br>HDFS设计的初衷是为了存储大型文件。在存储文件时，HDFS会把文件切分成一系列的block，每个文件的所有block除了最后一个大小都是一样的。默认情况下，出于容错的考虑每个block会被复制成3份。block的大小和备份个数是可以改变的。应用可指定备份的个数，备份的个数可以在文件创建的时候指定并且可以在之后修改。HDFS中的文件是一次写入的并且有一个严格的写入器。<p></p>
 <p><img src="/images/hdfsdatanodes.gif" alt="datanode"></p>
 <p>NN会做出关于block复制的所有决定。它定期地接受来自集群中每一个DN的一个心跳以及一个Blockreport。接收到心跳意味着该DN正常工作，一个Blockreport包含一个DN上所有block的列表。而NN采用机架感知策略决定每一个副本存放位置。</p>
 <p><img src="/images/rack_aware.png" alt="network topology">假设HDFS运行在一个拥有树层次的网络拓扑的集群上，例如一个HDFS集群可能是由多个数据中心组成，而每个数据中心又包含多个机架的电脑；正如上图所示，树叶代表电脑，内部的节点代表交换机或路由器。集群中每个节点的位置由一个类似于一个文件名的字符串表示，如R1的位置为/D1/R1，H8的位置为/D2/R3/H8.假定一个节点到它所在机架（即上一层，parent）的距离为1，两台电脑间的距离可以通过把每台电脑到他们共有的节点（ancestor）的距离加起来的方式计算。</p>
 <p>block放置策略是为了在最小化编写成本和最大化数据可靠性之间做一个折衷，并聚合读取的带宽。当一个新的block被创建时，第一个副本会被放置在本地节点上，第二个个副本会放置在另一个不同的机架上，第三个副本会被放在当前机架的另一个不同的节点上，而余下的副本会在副本的数量不超过机架数量的两倍时一个节点不超过一个副本、同一机架不超过两个副本的限制条件随机放置在一个节点上。而当复制一个block时，如果已存在的副本数是1，则则将第二个部分放在不同机架的机器上；当已存在的副本数是2，如果两副本在同一机架，则将第三个副本放在另一个不同的机架上，否则放在和第一块副本同意机架的不同机器上；当可用的副本数超过两块，则随机放置剩下的副本。当所有放置block的目标节点选定之后，所有节点会按它们距离第一个副本的距离按顺序组成一个pipeline，然后数据会按顺序写入各节点。详情见<a href="/files/Rack_aware_HDFS_proposal.pdf">Rack_aware_HDFS_proposal.pdf</a></p>
 <h3 id="读写流程"><a href="#读写流程" class="headerlink" title="读写流程"></a>读写流程</h3><h4 id="客户端读取HDFS文件"><a href="#客户端读取HDFS文件" class="headerlink" title="客户端读取HDFS文件"></a>客户端读取HDFS文件</h4><p><img src="/images/read_from_hdfs.png" alt="read_from_HDFS"></p>
-<h4 id="客户端写文件到HDFS"><a href="#客户端写文件到HDFS" class="headerlink" title="客户端写文件到HDFS"></a>客户端写文件到HDFS</h4><p><img src="/images/write_to_hdfs.png" alt="write_to_HDFS"></p>
+<ol>
+<li>Client向NameNode发送读请求</li>
+</ol>
+<p>客户端首先通过在DistributedFileSystem的实例FileSystem上调用open()方法打开它想要打开的文件。这个方法在底层会调用ClientProtocol.open()方法，该方法会返回一个HdfsDataInputStream对象用于读取block。HdfsDataInputStream其实是封装了一个DFSInputStream对象真正进行block读取操作的是DFSInputStream。</p>
+<ol start="2">
+<li>从NameNode获取Datanode地址</li>
+</ol>
+<p>DistributedFileSystem使用remote procedure calls(RPCs)访问NameNode确定文件中<font color="Red">最初的几个block</font>的位置信息。在DFSInputStream的构造方法中，会调用ClientProtocol.getBlockLocations()方法向NameNode获取该HDFS文件最初的几个的block的位置信息。</p>
+<font color="Red">注：这几个block是由getBlockLocations方法中offset和length参数所确定的区间确定的，因为第一次调用该方法时offset为0，所以是最初的几个block</font>
+
+<ol start="3">
+<li>客户端在DFSInputStream上调用read()函数</li>
+</ol>
+<p>对于每一个block，NameNode返回的是包含该block的一个copy的DataNode的位置,并且DataNode是按照与客户端的距离远近（关于网络拓扑相关知识见<a href="#1.1.2">数据存储</a>）排好序的，所以DFSInputStream可以选择一个最优的DataNode，然后与这个节点建立数据链接读取block。如果客户端所在机器本身就是一个DataNode并该DataNode拥有该block的一个copy，客户端将会从该机器读取数据。DistributedFileSystem会给客户端返回一个支持文件定位的输入流FSDataInputStream供它读取数据。FSDataInputStream反过来封装了一个DFSInputStream来管理DataNode和NameNode 的I/O操作。上述步骤完成后，客户端会在这个输入流上调用read()函数。</p>
+<ol start="4">
+<li><p>连接DataNode读取block<br>DFSInputStream中已经保存了第二步获得的信息，在client调用read()函数后会连接到包含文件中第一个block的最近的DataNode上读取数据，数据会以packet（数据包）为单位从DataNode通过流式接口传送到客户端。随后客户端会在这个流上重复调用read()函数。</p>
+</li>
+<li><p>切换DataNode<br>当达到一个block的末尾时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最优的DataNode。</p>
+</li>
+</ol>
+<p>6.关闭输入流</p>
+<p>第5步的这个操作对客户端来说是透明的，从客户端的角度来说就只是读取一个持续的流。随着DFSInputStream打开到DataNode的新连接作为客户端读取数的流，block是按顺序被读取的。当这一批的block读取完毕后，DFSInputStream会再次调用ClientProtocol.getBlockLocations()向NameNode获取下一批block的位置信息。当客户端成功完成文件读取后，会通过HdfsDataInputStream.close()方法关闭输入流。</p>
+<p></p><h4 id="1.1.3.2">客户端写文件到HDFS</h4><br><img src="/images/write_to_hdfs.png" alt="write_to_HDFS"><p></p>
 
       
     </div>
@@ -435,12 +435,6 @@ block增大可以减少寻址时间，block过大也不好
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/大数据/" rel="tag"># 大数据</a>
-          
-        </div>
-      
 
       
       
@@ -476,6 +470,32 @@ block增大可以减少寻址时间，block过大也不好
 
 
     <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
       
     </div>
   </div>
@@ -542,25 +562,7 @@ block增大可以减少寻址时间，block过大也不好
             
 
             
-              
-              
-              <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">categories</span>
-                
-              </div>
-            
 
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">tags</span>
-                
-              </div>
             
 
           </nav>
@@ -590,7 +592,7 @@ block增大可以减少寻址时间，block过大也不好
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop-1-x"><span class="nav-number">1.</span> <span class="nav-text">Hadoop 1.x</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS"><span class="nav-number">1.1.</span> <span class="nav-text">HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构"><span class="nav-number">1.1.1.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NameNode"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">NameNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Secondary-NameNode"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Secondary NameNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataNode"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">DataNode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储-block副本放置策略"><span class="nav-number">1.1.2.</span> <span class="nav-text">数据存储(block副本放置策略)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写流程"><span class="nav-number">1.1.3.</span> <span class="nav-text">读写流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端读取HDFS文件"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">客户端读取HDFS文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端写文件到HDFS"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">客户端写文件到HDFS</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop-1-x"><span class="nav-number">1.</span> <span class="nav-text">Hadoop 1.x</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS"><span class="nav-number">1.1.</span> <span class="nav-text">HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构"><span class="nav-number">1.1.1.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NameNode"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">NameNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Secondary-NameNode"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Secondary NameNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataNode"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">DataNode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1.1.2"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 数据存储(block副本放置策略)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写流程"><span class="nav-number">1.1.3.</span> <span class="nav-text">读写流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端读取HDFS文件"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">客户端读取HDFS文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1.1.3.2"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">客户端写文件到HDFS</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
