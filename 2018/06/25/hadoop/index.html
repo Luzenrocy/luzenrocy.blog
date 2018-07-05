@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
 <meta property="og:image" content="http://yoursite.com/images/read_from_hdfs.png">
 <meta property="og:image" content="http://yoursite.com/images/write_to_hdfs.png">
-<meta property="og:updated_time" content="2018-07-04T11:37:04.142Z">
+<meta property="og:updated_time" content="2018-07-05T16:27:29.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
 <meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
@@ -371,27 +371,56 @@ block增大可以减少寻址时间，block过大也不好
 <ol>
 <li>Client向NameNode发送读请求</li>
 </ol>
-<p>客户端首先通过在DistributedFileSystem的实例FileSystem上调用open()方法打开它想要打开的文件。这个方法在底层会调用ClientProtocol.open()方法，该方法会返回一个HdfsDataInputStream对象用于读取block。HdfsDataInputStream其实是封装了一个DFSInputStream对象真正进行block读取操作的是DFSInputStream。</p>
+<p>客户端首先通过在FileSystem对象（对HDFS来时是DistributedFileSystem的实例）上调用open()方法打开它想要读取的文件。</p>
 <ol start="2">
 <li>从NameNode获取Datanode地址</li>
 </ol>
-<p>DistributedFileSystem使用remote procedure calls(RPCs)访问NameNode确定文件中<font color="Red">最初的几个block</font>的位置信息。在DFSInputStream的构造方法中，会调用ClientProtocol.getBlockLocations()方法向NameNode获取该HDFS文件最初的几个的block的位置信息。</p>
-<font color="Red">注：这几个block是由getBlockLocations方法中offset和length参数所确定的区间确定的，因为第一次调用该方法时offset为0，所以是最初的几个block</font>
+<p>DistributedFileSystem使用remote procedure calls(RPCs)访问NameNode确定文件中<font color="Red">最初的几个block</font>的位置信息。</p>
+<font color="Red">ps:这几个block是由getBlockLocations方法中offset和length参数所确定的区间确定的，因为第一次调用该方法时offset为0，所以是最初的几个block</font>
 
 <ol start="3">
-<li>客户端在DFSInputStream上调用read()函数</li>
+<li>客户端开始读取数据</li>
 </ol>
-<p>对于每一个block，NameNode返回的是包含该block的一个copy的DataNode的位置,并且DataNode是按照与客户端的距离远近（关于网络拓扑相关知识见<a href="#1.1.2">数据存储</a>）排好序的，所以DFSInputStream可以选择一个最优的DataNode，然后与这个节点建立数据链接读取block。如果客户端所在机器本身就是一个DataNode并该DataNode拥有该block的一个copy，客户端将会从该机器读取数据。DistributedFileSystem会给客户端返回一个支持文件定位的输入流FSDataInputStream供它读取数据。FSDataInputStream反过来封装了一个DFSInputStream来管理DataNode和NameNode 的I/O操作。上述步骤完成后，客户端会在这个输入流上调用read()函数。</p>
+<p>对于每一个block，NameNode返回的是包含该block的一个copy的DataNode的地址,并且DataNode是按照与客户端的距离远近（关于网络拓扑相关知识见<a href="#1.1.2">数据存储</a>）排好序的。如果客户端所在机器本身就是一个DataNode（在MR任务的情况下）并该DataNode拥有该block的一个copy，客户端将会从该机器读取数据。DistributedFileSystem会给客户端返回一个支持文件定位的输入流FSDataInputStream供它读取数据。FSDataInputStream反过来封装了一个DFSInputStream来管理DataNode和NameNode 的I/O操作。客户端将会在FSDataInputStream这个输入流上调用read()函数读取数据。</p>
 <ol start="4">
-<li><p>连接DataNode读取block<br>DFSInputStream中已经保存了第二步获得的信息，在client调用read()函数后会连接到包含文件中第一个block的最近的DataNode上读取数据，数据会以packet（数据包）为单位从DataNode通过流式接口传送到客户端。随后客户端会在这个流上重复调用read()函数。</p>
+<li><p>连接DataNode读取block<br>DFSInputStream中已经保存了文件最初的几个block的所在DataNode的地址，然后会连接到包含文件中第一个block并离客户端最近的DataNode上。随后，在客户端重复调用FSDataInputStream上的read()方法的情况下，数据会从DataNode通过流的形式传送到客户端。</p>
 </li>
-<li><p>切换DataNode<br>当达到一个block的末尾时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最优的DataNode。</p>
+<li><p>切换DataNode<br>当读完一个block时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最合适的DataNode。</p>
 </li>
 <li><p>关闭输入流</p>
 </li>
 </ol>
-<p>第5步的这个操作对客户端来说是透明的，从客户端的角度来说就只是读取一个持续的流。随着DFSInputStream打开到DataNode的新连接作为客户端读取数的流，block是按顺序被读取的。当这一批的block读取完毕后，DFSInputStream会再次调用ClientProtocol.getBlockLocations()向NameNode获取下一批block的位置信息。当客户端成功完成文件读取后，会通过HdfsDataInputStream.close()方法关闭输入流。</p>
+<p>第5步的这个操作对客户端来说是透明的，从客户端的角度来说就只是读取一个持续的流。当客户端通过流读取数据时，随着DFSInputStream打开到DataNode的新连接，block是按顺序被读取的。客户端也会根据需要访问NameNode获取下一批block的DataNode位置。当客户端成功完成文件读取后，会通过FSDataInputStream.close()方法关闭输入流。</p>
 <p></p><h4 id="1.1.3.2">客户端写文件到HDFS</h4><br><img src="/images/write_to_hdfs.png" alt="write_to_HDFS"><p></p>
+<ol>
+<li>客户端向NameNode发送写请求</li>
+</ol>
+<p>客户端首先通过在DistributedFileSystem上调用create()方法创建一个新的空文件。</p>
+<ol start="2">
+<li>NameNode更新namespace</li>
+</ol>
+<p>DistributedFileSystem通过RPC远程调用namenode相关方法在文件系统的namespace中创建一个新的没有任何block与之关联的新文件。</p>
+<ol start="3">
+<li>客户端开始写数据</li>
+</ol>
+<p>NameNode会执行多种验证确保新文件不存在于文件系统中，并且确保请求客户端有创建文件的权限。当所有验证都通过时，NameNode会创建一个新文件的记录；否则，文件创建失败并且抛出一个IOException给客户端。然后DistributedFileSystem会返回一个FSDataOutputStream给客户端去写入数据。就像读取文件的案例一样，FSDataOutputStream封装了一个DFSOutputStream来管理客户端与DataNode和NameNode的通信。客户端将在DFSOutputStream上调用write()函数开始写数据。</p>
+<ol start="4">
+<li>客户端写数据到HDFS</li>
+</ol>
+<p>当客户端写数据时，DFSOutputStream会把数据切分成一些packet，然后写入一个被称为data queue(数据队列)的内部队列里。接着这个数据队列会交给DataStreamer处理，而DataStreamer负责请求NameNode为新的block分配一个DataNode列表来存储block副本。这个DataNode列表会形成一个pipeline，并且这里我们假设block存储的副本数为3，所以这个pipeline里会有3个DataNode。DataStreamer将packet以流的形式传送给队列中的第一个DataNode，这个DataNode会存储每一个packet并将它推送给pipeline中的第二个DataNode。类似的，第二个DataNode会存储每一个packet并把它推送给pipeline中第三个也是最后一个DataNode。</p>
+<ol start="5">
+<li>数据写入确认 </li>
+</ol>
+<p>DFSOutputStream同时也会保存一个packet的内部队列，用来等待pipeline中DataNode的确认信息。这个队列被称为ack queue(确认队列)。一个packet只有在pipeline中所有DataNode都确认后才会从ack queue中移除。</p>
+<ol start="6">
+<li>写入操作结束</li>
+</ol>
+<p>如果有任何一个datanode在写入数据时发生故障，就会执行下面的操作（在客户端写入数据时是透明的）：<br>        1.pipeline关闭并且任何在ack queue中的packet会被添加到data queue的前面以故障节点的下游节点丢失任何一个packet。<br>        2.在写入成功的datanode上的当前block会被赋予一个新身份并传达给namenode，目的是当故障节点会恢复正常后删除该节点上不完整的block。<br>        3.故障节点从pipeline中移除，并且用剩下的两个完好的datanode构建一个新的pipeline。block剩下的数据会被写入新pipeline的datanode上。<br>        4.最后namenode会注意到现在block的副本数低于配置属性要求的数量，并在另一台datanode安排重建一个block副本，最后block会被视为正常写入。<br>当一个block正在被写入时，多个DataNode同时出现故障的可能性存在，但是很小。只要dfs.namenode.replication.min设置的最小数量的副本（默认时1）被写入，写入操作将会被认为成功，并且block将在集群中被异步复制直到它的目标数达到要求（dfs.replication,默认是3）.</p>
+<p>当客户端写入数据结束，会在FSDataOutputStream上调用close()方法。</p>
+<ol start="7">
+<li>通知NameNode</li>
+</ol>
+<p>close()操作会在连接NameNode确认文件写入完成之前将所有剩下的packet放到DataNode的pipeline中。NameNode已经知道文件是由哪一些block组成（block的分配是由DataStreamer向NameNode请求的），所以它只需在返回成功标志之前等待block被最低限度的复制即可。</p>
 
       
     </div>
