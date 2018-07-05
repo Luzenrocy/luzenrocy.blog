@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/images/rack_aware.png">
 <meta property="og:image" content="http://yoursite.com/images/read_from_hdfs.png">
 <meta property="og:image" content="http://yoursite.com/images/write_to_hdfs.png">
-<meta property="og:updated_time" content="2018-07-05T16:30:22.660Z">
+<meta property="og:updated_time" content="2018-07-05T16:32:53.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop">
 <meta name="twitter:description" content="Hadoop是大数据技术的基础，在大数据体系中起着至关重要的作用。基于个人对Hadoop的学习及掌握程度，本文从Hadoop 1.x和2.x入手，对Hadoop部分作一个简单总结。不足之处还望路过的各位大神多多指教。">
@@ -383,12 +383,15 @@ block增大可以减少寻址时间，block过大也不好
 </ol>
 <p>对于每一个block，NameNode返回的是包含该block的一个copy的DataNode的地址,并且DataNode是按照与客户端的距离远近（关于网络拓扑相关知识见<a href="#1.1.2">数据存储</a>）排好序的。如果客户端所在机器本身就是一个DataNode（在MR任务的情况下）并该DataNode拥有该block的一个copy，客户端将会从该机器读取数据。DistributedFileSystem会给客户端返回一个支持文件定位的输入流FSDataInputStream供它读取数据。FSDataInputStream反过来封装了一个DFSInputStream来管理DataNode和NameNode 的I/O操作。客户端将会在FSDataInputStream这个输入流上调用read()函数读取数据。</p>
 <ol start="4">
-<li><p>连接DataNode读取block<br>DFSInputStream中已经保存了文件最初的几个block的所在DataNode的地址，然后会连接到包含文件中第一个block并离客户端最近的DataNode上。随后，在客户端重复调用FSDataInputStream上的read()方法的情况下，数据会从DataNode通过流的形式传送到客户端。</p>
-</li>
-<li><p>切换DataNode<br>当读完一个block时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最合适的DataNode。</p>
-</li>
-<li><p>关闭输入流</p>
-</li>
+<li>连接DataNode读取block</li>
+</ol>
+<p>DFSInputStream中已经保存了文件最初的几个block的所在DataNode的地址，然后会连接到包含文件中第一个block并离客户端最近的DataNode上。随后，在客户端重复调用FSDataInputStream上的read()方法的情况下，数据会从DataNode通过流的形式传送到客户端。</p>
+<ol start="5">
+<li>切换DataNode</li>
+</ol>
+<p>当读完一个block时，DFSInputStream就会关闭到这个DataNode的连接，并找到下一个block的最合适的DataNode。</p>
+<ol start="6">
+<li>关闭输入流</li>
 </ol>
 <p>第5步的这个操作对客户端来说是透明的，从客户端的角度来说就只是读取一个持续的流。当客户端通过流读取数据时，随着DFSInputStream打开到DataNode的新连接，block是按顺序被读取的。客户端也会根据需要访问NameNode获取下一批block的DataNode位置。当客户端成功完成文件读取后，会通过FSDataInputStream.close()方法关闭输入流。</p>
 <p></p><h4 id="1.1.3.2">客户端写文件到HDFS</h4><br><img src="/images/write_to_hdfs.png" alt="write_to_HDFS"><p></p>
@@ -415,8 +418,12 @@ block增大可以减少寻址时间，block过大也不好
 <ol start="6">
 <li>写入操作结束</li>
 </ol>
-<p>如果有任何一个datanode在写入数据时发生故障，就会执行下面的操作（在客户端写入数据时是透明的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.pipeline关闭并且任何在ack queue中的packet会被添加到data queue的前面以故障节点的下游节点丢失任何一个packet。</span><br><span class="line">2.在写入成功的datanode上的当前block会被赋予一个新身份并传达给namenode，目的是当故障节点会恢复正常后删除该节点上不完整的block。</span><br><span class="line">3.故障节点从pipeline中移除，并且用剩下的两个完好的datanode构建一个新的pipeline。block剩下的数据会被写入新pipeline的datanode上。</span><br><span class="line">4.最后namenode会注意到现在block的副本数低于配置属性要求的数量，并在另一台datanode安排重建一个block副本，最后block会被视为正常写入。</span><br></pre></td></tr></table></figure></p>
-<p>当一个block正在被写入时，多个DataNode同时出现故障的可能性存在，但是很小。只要dfs.namenode.replication.min设置的最小数量的副本（默认时1）被写入，写入操作将会被认为成功，并且block将在集群中被异步复制直到它的目标数达到要求（dfs.replication,默认是3）.</p>
+<p>如果有任何一个datanode在写入数据时发生故障，就会执行下面的操作（在客户端写入数据时是透明的）：</p>
+<pre><code>1.pipeline关闭并且任何在ack queue中的packet会被添加到data queue的前面以故障节点的下游节点丢失任何一个packet。
+2.在写入成功的datanode上的当前block会被赋予一个新身份并传达给namenode，目的是当故障节点会恢复正常后删除该节点上不完整的block。
+3.故障节点从pipeline中移除，并且用剩下的两个完好的datanode构建一个新的pipeline。block剩下的数据会被写入新pipeline的datanode上。
+4.最后namenode会注意到现在block的副本数低于配置属性要求的数量，并在另一台datanode安排重建一个block副本，最后block会被视为正常写入。
+</code></pre><p>当一个block正在被写入时，多个DataNode同时出现故障的可能性存在，但是很小。只要dfs.namenode.replication.min设置的最小数量的副本（默认时1）被写入，写入操作将会被认为成功，并且block将在集群中被异步复制直到它的目标数达到要求（dfs.replication,默认是3）.</p>
 <p>当客户端写入数据结束，会在FSDataOutputStream上调用close()方法。</p>
 <ol start="7">
 <li>通知NameNode</li>
